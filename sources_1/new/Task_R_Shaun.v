@@ -36,31 +36,17 @@ module Task_R_Shaun (input clk, btnC, input [3:0] sw, output [7:0] JB);
     assign x = pixel_index % 96;
     assign y = pixel_index / 96;
 
-    wire [15:0] vert_pixel_data; // Output from vertically moving digit
-    move_digit_vert u_move_vert(
+    wire [31:0] controller_pixel_data;
+    task_R_controller u_R_controller(
+        .SW1(sw[1]),
+        .SW3(sw[3]),
         .clk(clk),
-        .set(sw[3]),
-        .value(9),
-        .px(x),
-        .py(y),
-        .pixel_data(vert_pixel_data)
+        .x(x),
+        .y(y),
+        .pixel_data(controller_pixel_data)
     );
 
-    wire [15:0] horiz_pixel_data; // Output from horizontally moving digit
-    move_digit_horiz u_move_horiz(
-        .clk(clk),
-        .set(sw[1]),
-        .value(9),
-        .px(x),
-        .py(y),
-        .pixel_data(horiz_pixel_data)
-    );
-
-    // Vertical oscillating digit overrides
-    assign pixel_data = (vert_pixel_data != 16'h0000) 
-                        ? vert_pixel_data
-                        : horiz_pixel_data;
-
+    assign pixel_data = controller_pixel_data;
     Oled_Display oled_display(
         .clk(clk_6p25MHz), 
         .reset(btnC), 
