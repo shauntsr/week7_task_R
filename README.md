@@ -1,4 +1,4 @@
-## Usage
+## `task_R_controller`
 
 **Input**
 
@@ -11,3 +11,15 @@
 **Output**
 
 `pixel_data` - Color for the next pixel
+
+## `display_group_id`
+
+**Input**
+
+`clk` - Basys3 Clock
+
+**Output**
+
+`an` - Pins to control which digit is on.
+
+` seg`- Pins for the 7 segment + dp.
