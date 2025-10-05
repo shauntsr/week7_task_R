@@ -24,7 +24,9 @@ module Task_R_Shaun (
     input clk,
     btnC,
     input [3:0] sw,
-    output [7:0] JB
+    output [7:0] JB,
+    output [7:0] seg,
+    output [3:0] an
 );
 
     wire clk_6p25MHz;
@@ -45,6 +47,7 @@ module Task_R_Shaun (
     assign x = pixel_index % 96;
     assign y = pixel_index / 96;
 
+    // Task R
     wire [31:0] controller_pixel_data;
     task_R_controller u_R_controller (
         .SW1(sw[1]),
@@ -71,6 +74,13 @@ module Task_R_Shaun (
         .resn(JB[5]),
         .vccen(JB[6]),
         .pmoden(JB[7])
+    );
+
+    // Group ID
+    display_group_id u_display_id (
+        .clk(clk),
+        .seg(seg),
+        .an (an)
     );
 
 endmodule
