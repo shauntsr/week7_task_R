@@ -32,6 +32,33 @@ module task_Q_controller (
     output [15:0] oled_data
 );
 
+    wire btnL_debounced, btnC_debounced, btnR_debounced;
+    debouncer u_btnL (
+        clk_1khz,
+        btnL,
+        btnL_debounced
+    );
+    debouncer u_btnC (
+        clk_1khz,
+        btnC,
+        btnC_debounced
+    );
+    debouncer u_btnR (
+        clk_1khz,
+        btnR,
+        btnR_debounced
+    );
+
+    // Square Colour Sequence
+    // 0: Red > 1: Blue > 2: Yellow > 3: Green > 4: White > 0: Red
+
+    /*
+    wire [2:0] left_square_colour = 3;
+    assign left_square_colour = btnL_debounced 
+        ? (left_square_colour == 4 ? 0 : left_square_colour + 1) 
+        : left_square_colour;
+    */
+
     reg isEnabled = 0;
     always @(posedge clk_1khz) begin
         isEnabled <= (~SW[15] & ~SW[14] & SW[13]) ? 1 : 0;
@@ -67,4 +94,16 @@ module task_Q_controller (
         .enabled(isEnabled),
         .colour(right_square_colour)
     );
+
+    draw_stuff udraw (
+        .clk_1khz(clk_1khz),
+        .clk_6p25mhz(clk_6p25mhz),
+        .px(px),
+        .py(py),
+        .left_square_colour(left_square_colour),
+        .middle_square_colour(middle_square_colour),
+        .right_square_colour(right_square_colour),
+        .oled_data(oled_data)
+    );
+
 endmodule

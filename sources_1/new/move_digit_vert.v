@@ -29,6 +29,7 @@ module move_digit_vert #(
 ) (
     input clk,
     input en,
+    reset,
     input [3:0] value,
     input [6:0] px,
     py,
@@ -48,14 +49,15 @@ module move_digit_vert #(
     );
 
     wire [6:0] horiz_x, horiz_y;
-    assign horiz_x = 6'd40;  // 
+    assign horiz_x = 6'd40;
 
     // Find where the digit's top left corner is
     oscillate u_oscillate (
         .en(en),
+        .reset(reset),
         .lower_bound(0),
         .upper_bound(OLED_HEIGHT - DIGIT_HEIGHT),
-        .clk(clk_2Hz),
+        .clk(clk_8p3Hz),
         .coord(horiz_y)
     );
 

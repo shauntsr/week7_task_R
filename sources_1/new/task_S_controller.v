@@ -73,7 +73,8 @@ module task_S_controller (
     isNumberFrame determineNumberFrame (
         .x(x),
         .y(y),
-        .signalOut(numberFrame)
+        .signalOut(numberFrame),
+        .clk(CLK25)
     );
     isNumber determineNumber (
         .x(x),
@@ -81,6 +82,7 @@ module task_S_controller (
         .signalOut(number)
     );
     circle findCircle (
+        .clk(CLK25),
         .x(x),
         .y(y),
         .circle_x(circle_x),

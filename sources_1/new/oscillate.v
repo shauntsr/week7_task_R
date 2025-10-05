@@ -25,6 +25,7 @@
 // Output is the number value
 module oscillate (
     input en,
+    input reset,
     input [6:0] lower_bound,
     upper_bound,
     input clk,
@@ -49,6 +50,9 @@ module oscillate (
                 end
                 default: curr <= curr;
             endcase
+        end else if (reset) begin
+            curr <= 0;
+            dir = 0;
         end
     end
 

@@ -31,11 +31,13 @@ module task_R_controller (
 );
 
     wire [15:0] vert_pixel_data;  // Output from vertically moving digit
-    wire vert_en;
+    wire vert_en, reset;
     assign vert_en = SW3 & en;
+    assign reset   = ~en;  // If disabled, reset
     move_digit_vert u_move_vert (
         .clk(clk),
         .en(vert_en),
+        .reset(reset),
         .value(9),
         .px(x),
         .py(y),
@@ -48,6 +50,7 @@ module task_R_controller (
     move_digit_horiz u_move_horiz (
         .clk(clk),
         .en(horiz_en),
+        .reset(reset),
         .value(9),
         .px(x),
         .py(y),

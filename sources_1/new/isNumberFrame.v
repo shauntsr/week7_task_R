@@ -23,12 +23,16 @@
 module isNumberFrame (
     input [6:0] x,
     input [5:0] y,
-    output signalOut
+    input clk,
+    output reg signalOut = 0
 );
     wire xIn;
     wire yIn;
-    assign signalOut = (xIn | yIn);
-    assign xIn = (((x > 4 & x < 8) | (x > 29 & x < 33)) & (y > 30 & y < 59));
-    assign yIn = (((y > 30 & y < 34) | (y > 55 & y < 59)) & (x > 4 & x < 33));
 
+    always @(posedge clk) begin
+        if (( (((x > 4 & x < 8) | (x > 29 & x < 33)) & (y > 30 & y < 59)) ) || 
+            ( (((y > 30 & y < 34) | (y > 55 & y < 59)) & (x > 4 & x < 33)) )) begin
+            signalOut <= 1;
+        end else signalOut <= 0;
+    end
 endmodule

@@ -35,8 +35,6 @@ module moveCircle (
     reg move_R;
     reg move_U;
     reg move_D;
-    reg [2:0] move_x_counter;
-    reg [2:0] move_y_counter;
     reg reset_move_x;
     reg reset_move_y;
     /*wire [6:0] x_next;
@@ -64,20 +62,15 @@ module moveCircle (
     end
 
     always @(posedge clk25mhz) begin
-        move_R <= ((move_R | btnR) & ~(btnL | btnD | btnU | move_x_counter == 3'b111));
-        move_L <= ((move_L | btnL) & ~(btnR | btnD | btnU | move_x_counter == 3'b111));
-        move_U <= ((move_U | btnU) & ~(btnD | btnR | btnL | move_y_counter == 3'b111));
-        move_D <= ((move_D | btnD) & ~(btnU | btnR | btnL | move_y_counter == 3'b111));
-        reset_move_x <= (btnL | btnR | btnD | btnU) & ~(move_x_counter == 3'b000);
-        reset_move_y <= (btnD | btnU | btnR | btnL) & ~(move_y_counter == 3'b000);
+        move_R <= ((move_R | btnR) & ~(btnL | btnD | btnU));
+        move_L <= ((move_L | btnL) & ~(btnR | btnD | btnU));
+        move_U <= ((move_U | btnU) & ~(btnD | btnR | btnL));
+        move_D <= ((move_D | btnD) & ~(btnU | btnR | btnL));
+        reset_move_x <= (btnL | btnR | btnD | btnU);
+        reset_move_y <= (btnD | btnU | btnR | btnL);
     end
 
     always @(posedge clk50hz) begin
-        if (reset_move_x) begin
-            move_x_counter <= 3'b000;
-        end else if (move_L | move_R) begin
-            move_x_counter <= move_x_counter + 1;
-        end
 
         if (move_R) begin
             //   if ( ~ isColliding) begin
@@ -92,11 +85,6 @@ module moveCircle (
     end
 
     always @(posedge clk50hz) begin
-        if (reset_move_y) begin
-            move_y_counter <= 3'b000;
-        end else if (move_D | move_U) begin
-            move_y_counter <= move_y_counter + 1;
-        end
 
         if (move_D) begin
             //if ( ~isColliding) begin

@@ -21,13 +21,18 @@
 
 
 module circle (
+    input clk,
     input [6:0] x,
     input [5:0] y,
     input [6:0] circle_x,
     input [5:0] circle_y,
-    output signalOut
+    output reg signalOut
 );
-    assign signalOut = ( ((x - circle_x) * (x - circle_x) + 
-    ( y - circle_y) * ( y - circle_y) ) < 101)? 1 : 0;
+    always @(posedge clk) begin
+        if (((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y)) < 101) begin
+            signalOut <= 1;
+        end else signalOut <= 0;
+    end
 
 endmodule
+

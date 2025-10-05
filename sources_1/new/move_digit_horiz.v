@@ -30,6 +30,7 @@ module move_digit_horiz #(
 ) (
     input clk,
     input en,
+    reset,
     input [3:0] value,
     input [6:0] px,
     py,
@@ -49,11 +50,12 @@ module move_digit_horiz #(
     );
 
     wire [6:0] horiz_x, horiz_y;
-    assign horiz_y = 6'd20;  // 
+    assign horiz_y = 6'd20;
 
     // Find where the digit's top left corner is
     oscillate u_oscillate (
         .en(en),
+        .reset(reset),
         .lower_bound(0),
         .upper_bound(OLED_WIDTH - DIGIT_WIDTH),
         .clk(clk_16p7Hz),
