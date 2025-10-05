@@ -21,7 +21,8 @@
 
 
 module button_controller (
-    input clk,
+    input set,
+    clk,
     clock_1000Hz,
     btnL,
     btnR,
@@ -44,11 +45,13 @@ module button_controller (
 
     // this checks for a discrete press and toggles set appropriately   
     toggle_set toggleSet9_1 (
+        set,
         clk,
         btnL_debounced,
         set9[1]
     );
     toggle_set toggleSet9_0 (
+        set,
         clk,
         btnR_debounced,
         set9[0]

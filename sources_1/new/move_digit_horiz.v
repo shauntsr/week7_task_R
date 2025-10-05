@@ -36,15 +36,15 @@ module move_digit_horiz #(
     output [15:0] pixel_data
 );
 
-    localparam [15:0] BLUE = 16'h4A7A;
+    localparam [15:0] BLUE = 16'h043F;
 
     // Max x-value is 96 - 16 = 80
-    // Traverse finish in 5s -> 16 Hz
-    // 3 mil count gives about 16.7 Hz
+    // Traverse finish in 3s -> 27 Hz
+    // 1.8 mil count gives about 27.7 Hz
     wire clk_16p7Hz;
     clock_divider u_16p7Hz (
         .clk(clk),
-        .m(3000000),
+        .m(1800000),
         .slow_clock(clk_16p7Hz)
     );
 

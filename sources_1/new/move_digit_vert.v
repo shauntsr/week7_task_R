@@ -38,13 +38,13 @@ module move_digit_vert #(
     localparam [15:0] ORANGE = 16'hFDA0;
 
     // Max y-value is 64 - 24 = 40
-    // Traverse finish in 3s -> 13 Hz
-    // 4 mil count gives about 12 Hz
-    wire clk_2Hz;
-    clock_divider u_2Hz (
+    // Traverse finish in 5s -> 8 Hz
+    // 6249999 count gives about 8 Hz
+    wire clk_8p3Hz;
+    clock_divider u_8p3Hz (
         .clk(clk),
-        .m(4000000),
-        .slow_clock(clk_2Hz)
+        .m(6000000),
+        .slow_clock(clk_8p3Hz)
     );
 
     wire [6:0] horiz_x, horiz_y;

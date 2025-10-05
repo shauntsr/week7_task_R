@@ -58,6 +58,7 @@ module integrated_task_controller (
     assign en_P = ~sw[15] & ~sw[14] & ~sw[13] & sw[12];
     task_P_controller task_P (
         .clk(clk),
+        .set(en_P),
         .btnC(btnC),
         .btnL(btnL),
         .btnR(btnR),
@@ -76,6 +77,7 @@ module integrated_task_controller (
         .btnL(btnL),
         .btnC(btnC),
         .btnR(btnR),
+        .SW(sw),
         .px(x),
         .py(y),
         .oled_data(Q_pixel_data)

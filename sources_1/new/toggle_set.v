@@ -21,15 +21,20 @@
 
 
 module toggle_set (
-    input clk,
+    input set,
+    clk,
     input debounced,
     output reg to_toggle = 1
 );
     reg debounced_p = 0;
     always @(posedge clk) begin
-        debounced_p <= debounced;
-        if (debounced && ~debounced_p) begin
-            to_toggle <= ~to_toggle;
+        if (set) begin
+            debounced_p <= debounced;
+            if (debounced && ~debounced_p) begin
+                to_toggle <= ~to_toggle;
+            end
+        end else begin
+            to_toggle <= 1;
         end
     end
 endmodule

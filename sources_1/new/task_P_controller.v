@@ -22,6 +22,7 @@
 
 module task_P_controller (
     input clk,
+    input set,
     input btnC,
     btnL,
     btnR,
@@ -47,11 +48,12 @@ module task_P_controller (
     // toggle both 9s, with debouncing
     wire [1:0] set9;  // left bit (MSB) sets left 9 drawn, right bit sets right 9 drawn
     button_controller(
-        .clk(clk), .clock_1000Hz(clock_1000Hz), .btnL(btnL), .btnR(btnR), .set9(set9)
+        .set(set), .clk(clk), .clock_1000Hz(clock_1000Hz), .btnL(btnL), .btnR(btnR), .set9(set9)
     );
 
 
     draw_characters draw (
+        .set(set),
         .px(x),
         .py(y),
         .set9(set9),

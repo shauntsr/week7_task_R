@@ -21,6 +21,7 @@
 
 
 module draw_characters (
+    input set,
     input [6:0] px,
     py,
     input [1:0] set9,
@@ -44,6 +45,7 @@ module draw_characters (
     localparam circle_x = 7;
     localparam circle_y = 7;
     wire [15:0] left_data, right_data, circle_data;  // output colour of individual draw modules
+
 
     draw_digit uLeft9 (
         .set(set9[1]),
@@ -69,8 +71,12 @@ module draw_characters (
     // poll btns to change circle color at 1000Hz
     reg [15:0] circle_col = WHITE;
     always @(posedge clock_1000Hz) begin
-        if (btnL || btnR) circle_col <= MAGENTA;
-        else circle_col <= WHITE;
+        if (set) begin
+            if (btnL || btnR) circle_col <= MAGENTA;
+            else circle_col <= WHITE;
+        end else begin
+            circle_col <= WHITE;
+        end
     end
 
     draw_circle uCircle (
