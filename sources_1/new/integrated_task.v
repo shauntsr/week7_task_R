@@ -25,6 +25,8 @@ module integrated_task (
     btnC,
     btnL,
     btnR,
+    btnU,
+    btnD,
     input [15:0] sw,
     output [7:0] JB,
     output [7:0] seg,
@@ -51,6 +53,8 @@ module integrated_task (
         .btnC(btnC),
         .btnL(btnL),
         .btnR(btnR),
+        .btnD(btnD),
+        .btnU(btnU),
         .sw(sw),
         .pixel_index(pixel_index),
         .display_data(pixel_data)

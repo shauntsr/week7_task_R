@@ -28,7 +28,7 @@ module move_digit_vert #(
     parameter integer DIGIT_THICKNESS = 4
 ) (
     input clk,
-    input set,
+    input en,
     input [3:0] value,
     input [6:0] px,
     py,
@@ -52,7 +52,7 @@ module move_digit_vert #(
 
     // Find where the digit's top left corner is
     oscillate u_oscillate (
-        .set(set),
+        .en(en),
         .lower_bound(0),
         .upper_bound(OLED_HEIGHT - DIGIT_HEIGHT),
         .clk(clk_2Hz),

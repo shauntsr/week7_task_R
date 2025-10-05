@@ -29,14 +29,14 @@ module move_digit_horiz #(
     parameter integer DIGIT_THICKNESS = 4
 ) (
     input clk,
-    input set,
+    input en,
     input [3:0] value,
     input [6:0] px,
     py,
     output [15:0] pixel_data
 );
 
-    localparam [15:0] BLUE = 16'hAEDC;
+    localparam [15:0] BLUE = 16'h4A7A;
 
     // Max x-value is 96 - 16 = 80
     // Traverse finish in 5s -> 16 Hz
@@ -53,7 +53,7 @@ module move_digit_horiz #(
 
     // Find where the digit's top left corner is
     oscillate u_oscillate (
-        .set(set),
+        .en(en),
         .lower_bound(0),
         .upper_bound(OLED_WIDTH - DIGIT_WIDTH),
         .clk(clk_16p7Hz),

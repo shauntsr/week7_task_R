@@ -24,15 +24,18 @@ module task_R_controller (
     input SW1,
     SW3,
     clk,
+    en,
     input [6:0] x,
     y,
     output [31:0] pixel_data
 );
 
     wire [15:0] vert_pixel_data;  // Output from vertically moving digit
+    wire vert_en;
+    assign vert_en = SW3 & en;
     move_digit_vert u_move_vert (
         .clk(clk),
-        .set(SW3),
+        .en(vert_en),
         .value(9),
         .px(x),
         .py(y),
@@ -40,9 +43,11 @@ module task_R_controller (
     );
 
     wire [15:0] horiz_pixel_data;  // Output from horizontally moving digit
+    wire horiz_en;
+    assign horiz_en = SW1 & en;
     move_digit_horiz u_move_horiz (
         .clk(clk),
-        .set(SW1),
+        .en(horiz_en),
         .value(9),
         .px(x),
         .py(y),

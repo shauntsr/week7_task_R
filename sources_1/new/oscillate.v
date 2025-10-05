@@ -24,7 +24,7 @@
 // Rate is affected by the input clock
 // Output is the number value
 module oscillate (
-    input set,
+    input en,
     input [6:0] lower_bound,
     upper_bound,
     input clk,
@@ -35,7 +35,7 @@ module oscillate (
     reg [6:0] curr = 0;
     assign coord = curr;
     always @(posedge clk) begin
-        if (set) begin
+        if (en) begin
             case (dir)
                 1'b0: // forwards
                 begin
