@@ -23,7 +23,7 @@
 // Determines if the coordinate is inside the moving digit's drawn params
 // Returns COLOUR if inside, BLACK otherwise.
 module move_digit_horiz #(
-    parameter integer OLED_WIDTH     = 96,
+    parameter integer OLED_WIDTH      = 96,
     parameter integer DIGIT_WIDTH     = 16,
     parameter integer DIGIT_HEIGHT    = 24,
     parameter integer DIGIT_THICKNESS = 4
@@ -31,20 +31,25 @@ module move_digit_horiz #(
     input clk,
     input set,
     input [3:0] value,
-    input [6:0] px, py,
+    input [6:0] px,
+    py,
     output [15:0] pixel_data
 );
 
-    localparam [15:0] BLUE = 16'hAEDC; 
+    localparam [15:0] BLUE = 16'hAEDC;
 
     // Max x-value is 96 - 16 = 80
     // Traverse finish in 5s -> 16 Hz
     // 3 mil count gives about 16.7 Hz
     wire clk_16p7Hz;
-    clock_divider u_16p7Hz (clk, 3000000, clk_16p7Hz);
+    clock_divider u_16p7Hz (
+        .clk(clk),
+        .m(3000000),
+        .slow_clock(clk_16p7Hz)
+    );
 
     wire [6:0] horiz_x, horiz_y;
-    assign horiz_y = 6'd20; // 
+    assign horiz_y = 6'd20;  // 
 
     // Find where the digit's top left corner is
     oscillate u_oscillate (
@@ -58,8 +63,8 @@ module move_digit_horiz #(
     wire [15:0] oled_data;
     assign pixel_data = oled_data;
     draw_digit #(
-        .WIDTH(DIGIT_WIDTH), 
-        .HEIGHT(DIGIT_HEIGHT), 
+        .WIDTH(DIGIT_WIDTH),
+        .HEIGHT(DIGIT_HEIGHT),
         .THICKNESS(DIGIT_THICKNESS)
     ) u_vert_digit (
         .set(1),

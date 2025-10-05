@@ -30,20 +30,25 @@ module move_digit_vert #(
     input clk,
     input set,
     input [3:0] value,
-    input [6:0] px, py,
+    input [6:0] px,
+    py,
     output [15:0] pixel_data
 );
 
-    localparam [15:0] ORANGE = 16'hFDA0; 
+    localparam [15:0] ORANGE = 16'hFDA0;
 
     // Max y-value is 64 - 24 = 40
     // Traverse finish in 3s -> 13 Hz
     // 4 mil count gives about 12 Hz
     wire clk_2Hz;
-    clock_divider u_2Hz (clk, 4000000, clk_2Hz);
+    clock_divider u_2Hz (
+        .clk(clk),
+        .m(4000000),
+        .slow_clock(clk_2Hz)
+    );
 
     wire [6:0] horiz_x, horiz_y;
-    assign horiz_x = 6'd40; // 
+    assign horiz_x = 6'd40;  // 
 
     // Find where the digit's top left corner is
     oscillate u_oscillate (
@@ -57,8 +62,8 @@ module move_digit_vert #(
     wire [15:0] oled_data;
     assign pixel_data = oled_data;
     draw_digit #(
-        .WIDTH(DIGIT_WIDTH), 
-        .HEIGHT(DIGIT_HEIGHT), 
+        .WIDTH(DIGIT_WIDTH),
+        .HEIGHT(DIGIT_HEIGHT),
         .THICKNESS(DIGIT_THICKNESS)
     ) u_vert_digit (
         .set(1),
