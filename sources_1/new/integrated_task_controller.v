@@ -50,9 +50,21 @@ module integrated_task_controller (
     assign x = pixel_index % 96;
     assign y = pixel_index / 96;
 
+    // Task P
+    wire [31:0] P_pixel_data;
+    task_P_controller task_P (
+        .clk(clk),
+        .btnC(btnC),
+        .btnL(btnL),
+        .btnR(btnR),
+        .x(x),
+        .y(y),
+        .oled_data(P_pixel_data)
+    );
+
     // Task Q
     wire [31:0] Q_pixel_data;
-    task_Q_controller u_Q_controller (
+    task_Q_controller task_Q (
         .clk_1khz(clk_1KHz),
         .clk_6p25mhz(clk_6p25MHz),
         .btnL(btnL),
@@ -66,7 +78,7 @@ module integrated_task_controller (
 
     // Task R
     wire [31:0] R_pixel_data;
-    task_R_controller u_R_controller (
+    task_R_controller task_R (
         .SW1(sw[1]),
         .SW3(sw[3]),
         .clk(clk),
@@ -75,7 +87,7 @@ module integrated_task_controller (
         .pixel_data(R_pixel_data)
     );
 
-    assign display_data = sw[14] ? R_pixel_data : sw[13] ? Q_pixel_data : 0;
+    assign display_data = sw[14] ? R_pixel_data : sw[13] ? Q_pixel_data : sw[12] ? P_pixel_data : 0;
 
 
 endmodule
